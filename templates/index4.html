@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Law Query Chatbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(255, 255, 255, 0.8); /* Add opacity to make text more readable */
+    background-image: url("static/images/1.jpg");
+    background-size: auto 100vh; /* Fit the background image height to 100% of the viewport height */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center top; /* Center the image horizontally and align it to the top */
+}
+
+
+.chat-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.5); /* Adjust the opacity value (0.5 for example) */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 80vh;
+    text: black;
+    border-radius: 10px; /* Add a slight curve to the corners */
+}
+
+
+
+
+
+
+
+.chat-box {
+    max-height: 400px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
+    color: black; /* Set text color to white */
+}
+
+
+.input-container {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+button {
+    padding: 0px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    display: none;
+}
+
+.translate-options {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.translate-option {
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.chatbot-label {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.chatbot-label i {
+    margin-right: 5px;
+}
+
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+<!--        <div class="chatbot-label"><i class="fas fa-scale-balanced"></i></div>-->
+        <div class="chat-box" id="chat-box">
+            <p><strong class="fas fa-scale-balanced"></strong> Hi, I'm your law-based chatbot. How can I help you today? 😊</p>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your query..." oninput="toggleSendButton(event)" onkeydown="handleKeyDown(event)">
+            <button id="send-button" onclick="sendMessage()"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAqCAYAAADFw8lbAAAACXBIWXMAAAsTAAALEwEAmpwYAAAC1ElEQVR4nO3WX0hTURzA8QsR/X8MkbQ7bTp3d+455+46tyv+QTd9yD9zzhHinyVJRCi0/DPDlRLRQ6FJ6kMPRWaUhhpREElEQVoPQUGJo3oYCPVQ9kcNV86duKNkaP5Jc7vB/cLv4cLh8uHeczmXouTk5OTkJNVOhtkOGXgGM7A7WqnZQ0k1DNDt5rLsmUsOsx8B9JGm1RwlxVg1mnp1vpy4O+1k8OQ+gjX4k+SwmMUtpmSDt6owg4x22KWJxQCfqzCbvj5oO0Sc5Tmkej4W4HGa1qglgfRcryNvrtaQmXsnfmEz57D9jVai1aCHYUf2naogQ+2HiW+wKTDB2JF2OxkQoQA9CjmQpunNInK/2fRlPtIXhLXnZc5CBvkgAz0hffVKpXITZNBwIsTTSUjr8/TUEXfX0QVI32ATueIq+45Y7kVEBNxGhTpFLGt3WI3T4r7rcVqIKdlAxnrrFyC7XWV+LeTeiwcAFY52xzC2yry0byJUnF5n4QJsV2Op35KeRG7WGqdyk/nTYYFSlG0Dq4aPm+1Zvj9hu4+XexHA7hqLYdTTmkPuOrMmw4YV9ynLoOFg7I2GQpKm0/mxhnupUql2CBCCBqswIklsXqp+JjoWJP5eIzXskKMow3uhOt8PGfQuKsqwJXiNZLA8z29MiGcdiEGdi/3WSQa7kgQZ+z8/WRAPEtLVfMFyI2i0uZGR/NbF7pMCONhoE9wi9k6tcaIgVXvsnyHFr9kpZL8dsVaS5ea5pWK2mEu7vNT9grFVufonawbuilXHxcexk3qEPwhI601B/I+VjB5xExzAn6EGdyy1DYoz+IF8gbetGRqjhAdcJVmBn5C/nadnSwgC8DUVigAD7zuKMknrwb2Lzi1XUeC8f9ZSGrjuqimYw3IsHhcPhnWHQgaNXTxiJtfqLasao143oVCo9esORQC16ZC2f7XDs7hPoWBV6w6Vk5OTk6OW6ieJqk3aMXhLzwAAAABJRU5ErkJggg=="></button>
+        </div>
+        <div class="translate-options" id="translate-options" style="display: none;">
+            <div class="translate-option" onclick="translateResponse('hindi')">Translate to Hindi</div>
+            <div class="translate-option" onclick="translateResponse('tamil')">Translate to Tamil</div>
+            <div class="translate-option" onclick="translateResponse('malayalam')">Translate to Malayalam</div>
+            <div class="translate-option" onclick="translateResponse('kannada')">Translate to Kannada</div>
+        </div>
+    </div>
+    <script>
+        function toggleSendButton(event) {
+            var input = document.getElementById('user-input');
+            var button = document.getElementById('send-button');
+            button.style.display = input.value.trim() ? 'block' : 'none';
+
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (!input.value.trim()) {
+                    return;
+                }
+                sendMessage();
+            } else if (event.key === 'Enter' && event.shiftKey) {
+                input.value += '\n';
+            }
+        }
+
+        function handleKeyDown(event) {
+            var input = document.getElementById('user-input');
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                if (!input.value.trim()) {
+                    return;
+                }
+                sendMessage();
+            }
+        }
+
+        function sendMessage() {
+            var userInput = document.getElementById('user-input').value.trim();
+            if (!userInput) {
+                return;
+            }
+            document.getElementById('user-input').value = '';
+
+            var chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += '<p><Strong class="fa-solid fa-user"></Strong> ' + userInput + '</p>';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            suggestOffenses(userInput);
+        }
+
+        function displayChatbotResponse(response) {
+    var chatBox = document.getElementById('chat-box');
+    var index = 0;
+
+    chatBox.innerHTML += '<p><i class="fas fa-scale-balanced"></i>';
+
+    var typingInterval = setInterval(function() {
+        if (index < response.length) {
+            chatBox.innerHTML += response[index];
+            chatBox.scrollTop = chatBox.scrollHeight;
+            index++;
+        } else {
+            clearInterval(typingInterval);
+            chatBox.innerHTML += '</p>';
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    }, 40); // Adjust typing speed here (milliseconds per letter)
+}
+
+
+
+        function suggestOffenses(userInput) {
+            var greetings = ['hi', 'hello', 'hey', 'hola'];
+            if (greetings.includes(userInput.toLowerCase())) {
+                displayChatbotResponse("Hi there! How can I help you today?");
+                return;
+            }
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/suggest_offenses?user_input=' + userInput, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.length > 0) {
+                        displaySuggestedOffenses(response);
+                    } else {
+                        var chatBox = document.getElementById('chat-box');
+                        chatBox.innerHTML += '<p><i class="fas fa-scale-balanced"></i> I can\'t understand. Please try rephrasing your query.</p>';
+                        chatBox.scrollTop = chatBox.scrollHeight;
+                    }
+                } else {
+                    console.log('Request failed. Status:', xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        function displaySuggestedOffenses(offenses) {
+            var chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += '<p><i class="fas fa-scale-balanced"></i> Matching offenses:</p>';
+            offenses.forEach(function (offense, idx) {
+                chatBox.innerHTML += `<p onclick="getOffenseDetails('${offense}')">${idx + 1}. ${offense}</p>`;
+            });
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        function getOffenseDetails(offense) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/get_offense_details?offense=' + offense, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayOffenseDetails(offense, response);
+                } else {
+                    console.log('Request failed. Status:', xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        function displayOffenseDetails(offense, details) {
+            var chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += `<p><i class="fas fa-scale-balanced"></i> Offense Details for '${offense}':</p>`;
+            chatBox.innerHTML += `<p>Description: ${details.Description}</p>`;
+            chatBox.innerHTML += `<p>Punishment: ${details.Punishment}</p>`;
+            chatBox.innerHTML += `<p>IPC Section: ${details['IPC Section']}</p>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            var translateOptions = document.getElementById('translate-options');
+            translateOptions.style.display = 'block';
+            translateOptions.setAttribute('data-offense', offense);
+            translateOptions.setAttribute('data-description', details.Description);
+            translateOptions.setAttribute('data-punishment', details.Punishment);
+            translateOptions.setAttribute('data-ipc-section', details['IPC Section']);
+        }
+
+        function translateResponse(language) {
+            var offense = document.getElementById('translate-options').getAttribute('data-offense');
+            var description = document.getElementById('translate-options').getAttribute('data-description');
+            var punishment = document.getElementById('translate-options').getAttribute('data-punishment');
+            var ipc_section = document.getElementById('translate-options').getAttribute('data-ipc-section');
+
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/translate_offense_details?offense=' + offense + '&description=' + description + '&punishment=' + punishment + '&ipc_section=' + ipc_section + '&target_language=' + language, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    displayTranslatedResponse(response, language);
+                } else {
+                    console.log('Request failed. Status:', xhr.status);
+                }
+            };
+            xhr.send();
+        }
+
+        function displayTranslatedResponse(response, language) {
+            var chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML += `<p><i class="fas fa-scale-balanced"></i> Translated response in ${language}:</p>`;
+            chatBox.innerHTML += `<p>Description: ${response.Description}</p>`;
+            chatBox.innerHTML += `<p>Punishment: ${response.Punishment}</p>`;
+            chatBox.innerHTML += `<p>IPC Section: ${response['IPC Section']}</p>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            var translateOptions = document.getElementById('translate-options');
+            translateOptions.style.display = 'none';
+        }
+
+        function handleBasicResponses(userInput) {
+            var greetings = ['hi', 'hello', 'hey', 'hola'];
+            if (greetings.includes(userInput.toLowerCase())) {
+                displayChatbotResponse(userInput);
+            }
+        }
+
+    </script>
+</body>
+</html>
